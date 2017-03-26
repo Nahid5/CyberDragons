@@ -1,0 +1,5 @@
+Nagios
+Sudo /etc/init.d/Nagios restart		-restart Nagios
+Add to commands config
+Add to services config
+Add to host config

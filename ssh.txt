@@ -1,0 +1,14 @@
+SSH
+Disable root login in /etc/ssh/sshd_config
+	-PermitRootLogin yes
+	to
+	-PermitRootLogin no
+
+Disable private key login in /etc/ssh/sshd_config
+	-PubkeyAuthentication yes 
+	to
+	-PubkeyAuthentication no
+
+Fail2ban (low priority)
+
+reload ssh when done with (sudo /etc/init.d/ssh reload or sudo /etc/init.d/sshd reload)

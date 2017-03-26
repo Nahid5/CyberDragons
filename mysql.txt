@@ -1,0 +1,34 @@
+MYSQL
+ps -ef | grep mysqld			-check if mysql is running or not
+/etc/my.cnf				-file configuration
+
+login with
+	-mysql -u <user> -p
+
+create database
+	-CREATE DATABASE <DATABASENAME>;
+drop database
+	-DROP TABLE table_name ;
+show all databases
+	-show databases;
+show all talbes in database
+	-show tables;
+return all records from table
+	-select * from <table>
+return specific records
+	-mysql> SELECT * from <table> WHERE <field>=<value>; 
+	ex.mysql> SELECT * from tutorials_tbl WHERE tutorial_author='Sanjay';
+delete from table
+	-DELETE FROM table_name WHERE <fields>
+sorting
+	-SELECT field1, field2,...fieldN table_name1, table_name2...
+		ORDER BY field1, [field2...] [ASC [DESC]]
+	ex.SELECT * from tutorials_tbl ORDER BY tutorial_author ASC
+select database to use
+	-use <database>
+create a table
+	-CREATE TABLE table_name (column_name column_type);
+insert into table
+	-INSERT INTO table_name ( field1, field2,...fieldN )
+                       VALUES
+                       ( value1, value2,...valueN );
