@@ -1,0 +1,170 @@
+postgres
+
+https://www.tutorialspoint.com/postgresql/postgresql_like_clause.htm
+login with
+	-sudo su - <user>	(defauly user is postgres with role postgres)
+	-psql
+check login info
+	-\conninfo
+logout
+	-\q
+create database
+	-CREATE DATABASE <name>
+	or
+	-createdb [option...] [dbname [description]]	this is command line form bin diretory
+
+dbname		-The name of a database to create.
+description 	-Specifies a comment to be associated with the newly created database.
+options 	-command-line arguments, which createdb accepts.
+
+-D 	tablespace	Specifies the default tablespace for the database.
+-e	Echo the commands that createdb generates and sends to the server.
+-E 	encoding	Specifies the character encoding scheme to be used in this database.
+-l 	locale	Specifies the locale to be used in this database.
+-T 	template	Specifies the template database from which to build this database.
+--help	Show help about createdb command line arguments, and exit.
+-h 	host	Specifies the host name of the machine on which the server is running.
+-p 	port	Specifies the TCP port or the local Unix domain socket file extension on which the server is listening for connections.
+-U 	username	User name to connect as.
+-w	Never issue a password prompt.
+-W	Force createdb to prompt for a password before connecting to a database.
+
+check list of databases
+	-\l
+check tables
+	-\d
+check primart key
+	-\d <table name>
+connect to database
+	-\c <database name>;
+	or connect form command line
+	ex. psql -h localhost -p 5432 -U postgress testdb
+dropping dababase
+	DROP DATABASE <name>;
+	or from command line with
+	-ex.dropdb -h localhost -p 5432 -U postgress testdb
+	other parameters
+-e			Shows the commands being sent to the server.
+-i			Issues a verification prompt before doing anything destructive.
+-V			Print the dropdb version and exit.
+--if-exists		Do not throw an error if the database does not exist. A notice is issued in this case.
+--help			Show help about dropdb command-line arguments, and exit.
+-h host			Specifies the host name of the machine on which the server is running.
+-p port			Specifies the TCP port or the local UNIX domain socket file extension on which the server is listening for connections.
+-U username		User name to connect as.
+-w			Never issue a password prompt.
+-W			Force dropdb to prompt for a password before connecting to a database.
+--maintenance-db=dbname	Specifies the name of the database to connect to in order to drop the target database.
+
+create table
+	-CREATE TABLE table_name(
+   	column1 datatype,
+   	column2 datatype,
+   	column3 datatype,
+   	.....
+  	columnN datatype,
+  	PRIMARY KEY( one or more columns )
+	);
+ex.
+	CREATE TABLE COMPANY(
+   	ID INT PRIMARY KEY     NOT NULL,
+   	NAME           TEXT    NOT NULL,
+   	AGE            INT     NOT NULL,
+   	ADDRESS        CHAR(50),
+   	SALARY         REAL
+	);
+
+create schema
+	-CREATE SCHEMA <name>;
+create a table in schema
+	-CREATE TABLE myschema.mytable (
+	...
+	);
+	
+	ex) testdb=# create table myschema.company(
+   	ID   INT              NOT NULL,
+   	NAME VARCHAR (20)     NOT NULL,
+   	AGE  INT              NOT NULL,
+   	ADDRESS  CHAR (25) ,
+   	SALARY   DECIMAL (18, 2),
+   	PRIMARY KEY (ID)
+   	);
+see tables in schema
+	-select * from <schema>.<table name>;
+drop schema
+	-DROP SCHEMA myschema;
+drop schema and all contained objects
+	-DROP SCHEMA myschema CASCADE;
+insert into table
+	-INSERT INTO <table name> (column1, column2, column3,...columnN)
+	VALUES (value1, value2, value3,...valueN);
+selecting fields from a table
+	-SELECT column1, column2, columnN FROM table_name;
+selecting entire table
+	-SELECT * FROM table_name;
+update query
+	-UPDATE table_name
+	SET column1 = value1, column2 = value2...., columnN = valueN	
+	WHERE [condition];
+	ex)UPDATE COMPANY SET SALARY = 15000 WHERE ID = 3;
+delete query
+	-DELETE FROM table_name
+	WHERE [condition];
+	ex)DELETE FROM COMPANY WHERE ID = 2;
+like
+	-SELECT FROM table_name
+	WHERE column LIKE 'XXXX%'
+	or
+	SELECT FROM table_name
+	WHERE column LIKE '%XXXX%'
+	or
+	SELECT FROM table_name
+	WHERE column LIKE 'XXXX_'
+	or
+	SELECT FROM table_name
+	WHERE column LIKE '_XXXX'
+	or
+	SELECT FROM table_name
+	WHERE column LIKE '_XXXX_'
+
+WHERE SALARY::text LIKE '200%'	Finds any values that start with 200
+WHERE SALARY::text LIKE '%200%'	Finds any values that have 200 in any position
+WHERE SALARY::text LIKE '_00%'	Finds any values that have 00 in the second and third positions
+WHERE SALARY::text LIKE '2_%_%'	Finds any values that start with 2 and are at least 3 characters in length
+WHERE SALARY::text LIKE '%2'	Finds any values that end with 2
+WHERE SALARY::text LIKE '_2%3'	Finds any values that have a 2 in the second position and end with a 3
+WHERE SALARY::text LIKE '2___3'	Finds any values in a five-digit number that start with 2 and end with 3
+
+ex)SELECT * FROM COMPANY WHERE AGE::text LIKE '2%';
+
+select with limit
+	-SELECT column1, column2, columnN
+	FROM table_name
+	LIMIT [no of rows]
+	or
+	-SELECT column1, column2, columnN
+	FROM table_name
+	LIMIT [no of rows] OFFSET [row num]
+	ex)SELECT * FROM COMPANY LIMIT 4; //only 4 records
+	ex)SELECT * FROM COMPANY LIMIT 3 OFFSET 2; //3 records startng from the 3rd position
+
+sorting
+	-SELECT column-list
+	FROM table_name
+	[WHERE condition]
+	[ORDER BY column1, column2, .. columnN] [ASC | DESC];
+	ex)SELECT * FROM COMPANY ORDER BY AGE ASC;
+	ex)SELECT * FROM COMPANY ORDER BY NAME, SALARY ASC;
+grouping
+	-SELECT column-list
+	FROM table_name
+	WHERE [ conditions ]
+	GROUP BY column1, column2....columnN
+	ORDER BY column1, column2....columnN
+	ex)SELECT NAME, SUM(SALARY) FROM COMPANY GROUP BY NAME;
+	ex)SELECT NAME, SUM(SALARY) FROM COMPANY GROUP BY NAME ORDER BY NAME;
+distinct (unique)
+	-SELECT DISTINCT column1, column2,.....columnN
+	FROM table_name
+	WHERE [condition]
+	ex)SELECT DISTINCT name FROM COMPANY;

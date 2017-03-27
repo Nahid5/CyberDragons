@@ -4,11 +4,26 @@ Disable root login in /etc/ssh/sshd_config
 	to
 	-PermitRootLogin no
 
-Disable private key login in /etc/ssh/sshd_config
+Disable private key
 	-PubkeyAuthentication yes 
 	to
 	-PubkeyAuthentication no
+Disable passowrd logins
+	-PasswordAuthentication yes
+	to
+	-PasswordAuthentication no
+
+only allow specifig user or group
+	-AllowUsers <name> (put a space to allow more)
+	or
+	-AllowGroups <gorup>
+deny users or gorups
+	-DenyUsers <user>
+	or
+	-DenyGroups <group>
 
 Fail2ban (low priority)
 
 reload ssh when done with (sudo /etc/init.d/ssh reload or sudo /etc/init.d/sshd reload)
+or
+service ssh restart

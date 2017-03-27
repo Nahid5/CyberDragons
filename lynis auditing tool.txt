@@ -5,15 +5,15 @@ sudo apt-get install lynis
 lynis <command>
 
 --auditor "Given name Surname"	  	Assign an auditor name to the audit (report)
---checkall	-c 	Start the check
---check-update 	 	Check if Lynis is up-to-date
---cronjob	 	Run Lynis as cronjob (includes -c -Q)
---help	-h 	Shows valid parameters
---manpage	 	View man page
---nocolors	 	Do not use any colors
---pentest	 	Perform a penetration test scan (non-privileged)
---quick	-Q	Don't wait for user input, except on errors
---quiet	 	Only show warnings (includes --quick, but doesn't wait)
---reverse-colors		Use a different color scheme for lighter backgrounds
---version 	-V 	Check program version (and quit)
+--checkall	-c 			Start the check
+--check-update 	 			Check if Lynis is up-to-date
+--cronjob	 			Run Lynis as cronjob (includes -c -Q)
+--help	-h 				Shows valid parameters
+--manpage	 			View man page
+--nocolors	 			Do not use any colors
+--pentest	 			Perform a penetration test scan (non-privileged)
+--quick	-Q				Don't wait for user input, except on errors
+--quiet	 				Only show warnings (includes --quick, but doesn't wait)
+--reverse-colors			Use a different color scheme for lighter backgrounds
+--version 	-V 			Check program version (and quit)
 

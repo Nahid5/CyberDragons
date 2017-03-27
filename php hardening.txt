@@ -1,1 +1,3 @@
+php hardening:
+
 Change php settings (ex: display_errors = Off in /etc/php.ini) see  http://www.madirish.net/199  
