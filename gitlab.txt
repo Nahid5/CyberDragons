@@ -15,3 +15,13 @@ Default location 					Permissions 	Ownership 	Purpose
 /var/opt/gitlab/gitlab-rails/uploads 			0700 		git:root 	Holds user attachments
 /var/opt/gitlab/gitlab-rails/shared/pages 		0750 		git:gitlab-www 	Holds user pages
 /var/opt/gitlab/gitlab-ci/builds 			0700 		git:root 	Holds CI build logs
+
+
+reCAPTCHA
+    Go to the URL: https://www.google.com/recaptcha/admin
+    Fill out the form necessary to obtain reCAPTCHA keys.
+    Login to your GitLab server, with administrator credentials.
+    Go to Applications Settings on Admin Area (admin/application_settings)
+    Fill all recaptcha fields with keys from previous steps
+    Check the Enable reCAPTCHA checkbox
+    Save the configuration.
