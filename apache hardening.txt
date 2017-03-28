@@ -1,0 +1,156 @@
+Apache Global Server Configuration Files
+
+https://www.owasp.org/index.php/SCG_WS_Apache
+
+Debian
+	/etc/apache2/apache2.conf
+RHEL / Red Hat / CentOS / Fedora Linux
+	/etc/httpd/conf/httpd.conf
+FreeBSD
+	/usr/local/etc/apache2X/httpd.conf
+
+Apache Module Files
+Debian
+	/etc/apache2/mods-enabled
+RHEL / Red Hat / CentOS / Fedora Linux
+	/etc/httpd/conf/conf.d
+Apache Port Configuration File
+Debian
+	/etc/apache2/ports.conf
+RHEL / Red Hat / CentOS / Fedora Linux
+	/etc/httpd/conf/conf.d
+
+Apache Error Files
+Debian
+	/var/log/apache2/error.log
+RHEL / Red Hat / CentOS / Fedora Linux
+	var/log/httpd/error_log
+FreeBSD
+	/var/log/httpd-error.log
+
+Server token (apache config file)
+form ServerTokens Full
+	to
+	ServerTokens Prod
+	or
+	ServerTokens ProductOnly
+Server signature	(apache config)
+	ServerSignature On
+	to
+	ServerSignature Off
+
+Run apache with least privliege user
+if apache user and gorup does not exit
+	# groupadd –r apache
+	# useradd apache -r -g apache -d /var/www -s /sbin/nologin
+configure the apache user and gorup in apache config
+	User apache
+	Group apache
+
+Restrict shell access for apache user
+check apache login shell in /etc/password
+	# grep apache /etc/passwd
+to restrict user with "nologin" restriction
+	#chsh -s /usr/sbin/nologin apache
+expected output
+	#cat/etc/passwd
+	apache:x:48:48:Apache:/var/www:usr/sbin/nologin
+
+Lock apache user account
+test with
+	# passwd -S apache
+expected
+	apache P 09/07/2015 0 99999 7 -1
+remediation
+	# passwd -l apache
+test again and expect output to be
+	apache LK 2015-09-09 0 99999 7 -1
+
+Apache directory ownership and permissions
+test with
+	 # ls -l /usr/share/apache2
+if not root
+	#chown –R root:root /usr/local/apache2
+Apache file ownership and permissions
+test with 
+	#ls -l /var/www/html
+if not rwxr-xr-x
+	chmod 731 /var/www/html
+
+Access control list in apache (in apache config)
+Restrict OS Root directory access using Allow,Deny Directive
+	<Directory />
+ 	. . .
+ 	Order allow,deny
+ 	Allow from all
+ 	. . .
+	</Directory>
+	to
+	<Directory />
+ 	. . .
+ 	Order deny,allow
+ 	Deny from all
+ 	. . .
+	</Directory>
+Restrict WebSite Content using Allow,Deny Directive
+	<Directory "/var/www/html">
+ 	. . .
+ 	Order deny,allow
+ 	Allow from all
+	</Directory>
+	to
+	 <Directory "/var/www/html/">
+	Order deny,allow
+	deny from all
+	allow from 172.16.5.0/24
+	</Directory> 
+AllowOverride directive
+	<Directory /var/www/html>
+	AllowOverride All
+	</Directory>
+	to
+	<Directory /var/www/html>
+	AllowOverride None
+	</Directory>
+Limit HTTP Request Methods
+remediation
+	<Directory "/usr/local/apache2/cgi-bin">
+ 	. . .
+ 	# Limit HTTP methods
+	<LimitExcept GET POST OPTIONS>
+			deny from all
+	</LimitExcept>
+	</Directory>
+
+Disable HTTP Trace Method (apache config)
+	TraceEnable on
+	to
+	TraceEnable off
+
+Restrict access to .htaccess files (apache config)
+	<FilesMatch "^\.ht">
+	Order allow
+	</FilesMatch>
+	to
+	<FilesMatch "^\.ht">
+	Order allow,deny
+	Deny from all
+	Satisfy All
+	</FilesMatch>
+
+Restrict file extensions (apache config)
+	<FilesMatch "^.*$">
+	Order Deny,Allow
+	Deny from all
+	</FilesMatch>
+	to (allow files with specifically approved file extensions)
+	<FilesMatch "^.*\.(css|html?|js|pdf|txt|xml|xsl|gif|ico|jpe?g|png)$">
+	Order Deny,Allow
+	Allow from all
+	</FilesMatch>
+
+Remove Default HTML Page
+1.Remove the default index pages like ( index.html,default.html)
+2.Remove the Welcome pages.
+3.Remove the Apache User manuals.
+4.Remove any Server Information Handlers and Status Handlers with configuration. 

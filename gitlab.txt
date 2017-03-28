@@ -1,6 +1,8 @@
 Gitlab
 https://docs.gitlab.com/omnibus/settings/configuration.html#configuring-the-external-url-for-gitlab
 
+address/user
+
 reconfigure server
 	-sudo gitlab-ctl reconfigure
 
