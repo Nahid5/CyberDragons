@@ -1,5 +1,7 @@
 Nginx
 
+sudo nginx -t		verify config files
+
 remove unnecessary backup files
 	# find /nginx -name '.?*' -not -name .ht* -or -name '*~' -or -name '*.bak*' -or -name '*.old*'
 	# find /usr/local/nginx/html/ -name '.?*' -not -name .ht* -or -name '*~' -or -name '*.bak*' -or -name '*.old*'
